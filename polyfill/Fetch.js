@@ -6,8 +6,8 @@ import Blob from './Blob'
 
 const log = new Log('FetchPolyfill')
 
-log.disable()
-// log.level(3)
+// log.disable()
+log.level(3)
 
 export default class Fetch {
 
@@ -38,6 +38,9 @@ class RNFetchBlobFetchPolyfill {
         if(body instanceof FormData) {
           log.verbose('convert FormData to blob body')
           promise = Blob.build(body).then((b) => {
+            log.verbose('convert FormData to blob body',b)
+            log.verbose('convert FormData to blob body b.multipartBoundary',b.multipartBoundary)
+            
             blobCache = b
             options.headers['Content-Type'] = 'multipart/form-data;boundary=' + b.multipartBoundary
             return Promise.resolve(RNFetchBlob.wrap(b._ref))
@@ -60,6 +63,7 @@ class RNFetchBlobFetchPolyfill {
       let progressHandler, uploadHandler, cancelHandler
       let statefulPromise = promise
           .then((body) => {
+            log.verbose('body',body)
             let task = RNFetchBlob.config(config)
               .fetch(options.method, url, options.headers, body)
             if(progressHandler)
