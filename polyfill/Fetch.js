@@ -42,7 +42,8 @@ class RNFetchBlobFetchPolyfill {
             log.verbose('convert FormData to blob body b.multipartBoundary',b.multipartBoundary)
             
             blobCache = b
-            options.headers['content-Type'] = 'multipart/form-data;boundary=' + b.multipartBoundary
+            options.headers['content-type'] = 'multipart/form-data;boundary=' + b.multipartBoundary
+            options.headers['Content-Type'] = 'multipart/form-data;boundary=' + b.multipartBoundary
             return Promise.resolve(RNFetchBlob.wrap(b._ref))
           })
         }
